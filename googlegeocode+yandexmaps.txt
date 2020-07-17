@@ -1,0 +1,22 @@
+function map(text){
+	var address=text
+    var zoom="16"
+    var geocoder = Maps.newGeocoder().geocode(address);
+    var  temp_dir_list="id of folder in Google Drive" 
+	var res = geocoder.results[0];
+	
+    Logger.log('Координаты вашего запроса: \n Широта '+String(res.geometry.location.lat)+'\n Долгота '+String(res.geometry.location.lng))
+    var file=return_file('https://static-maps.yandex.ru/1.x/?ll='+String(res.geometry.location.lng)+'%2C'+String(res.geometry.location.lat)+'&size=650,450&z='+zoom+'&l=map'+'&pt='+String(res.geometry.location.lng)+'%2C'+String(res.geometry.location.lat)+','+'pmwtm1',
+          temp_dir_list)
+		  
+	Logger.log(file.getId())
+
+}
+
+function return_file(query,temp_dir_list){
+  var res=UrlFetchApp.fetch(query)
+  var fileBlob = res.getBlob()
+  var destination = DriveApp.getFolderById(temp_dir_list);
+  var file=destination.createFile(fileBlob);
+  return file
+}

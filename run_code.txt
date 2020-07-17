@@ -1,0 +1,54 @@
+function run_code(){
+  var lang="python3"
+  var stdin="" //alternative of user input 
+  var code="write you code in lang"
+  var vi="1"
+  var clientId="xxxxx",
+  var clientSecret="zzzzzz",
+  
+  var url = "https://api.jdoodle.com/v1/execute";
+  
+  if (stdin!=""){
+	var payload =
+      {
+        "clientId": cliendId,
+        "clientSecret":clientSecret,
+        "language": lang,
+        "script" : code,
+        "stdin": stdin,
+        "versionIndex": vi,       
+	};
+  } else {
+    var payload =
+      {
+        "clientId": cliendId,
+        "clientSecret":clientSecret,
+        "language": lang,
+        "script" : code,
+        "versionIndex": vi,      
+  };
+    
+  }
+     
+  var headers = 
+  { 
+    'content-type': 'application/json',
+    'Accept': 'application/json',
+  };
+
+  var options = 
+  { 
+    'content-type': 'application/json',
+    'method': 'POST',
+    'muteHttpExceptions' : true,
+    'headers': headers,
+    'payload': JSON.stringify(payload),
+  };
+
+  var response = UrlFetchApp.fetch(url, options);
+  var b=JSON.parse(response)
+  var ans="Output:\n"+b.output+'\n Memory: '+b.memory+'\n cpuTime: '+b.cpuTime+'\n statusCode: '+b.statusCode
+  return ans
+}
+
+}

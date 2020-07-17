@@ -1,0 +1,16 @@
+function converttext(text){
+	  var lang="ru-ru" //lang: ru-ru (русский),de-de (немецкий), en-gb (британский английский), en-us (американский английский), fr-fr (французский), ko-kr (корейский), it-it (итальянский), es-es (испанский)
+	  var key = "xxxxx"; //use service voicerss
+	  var temp_dir_list="id of folder in Google Drive"
+	  
+      var file=return_file('http://api.voicerss.org/?key='+key+'&hl='+lang+'&src='+text+'&c=mp3',temp_dir_list)
+      Logger.log("https://drive.google.com/uc?export=download&id="+file.getId())
+}
+
+function return_file(query,temp_dir_list){
+  var res=UrlFetchApp.fetch(query)
+  var fileBlob = res.getBlob()
+  var destination = DriveApp.getFolderById(temp_dir_list);
+  var file=destination.createFile(fileBlob);
+  return file
+}

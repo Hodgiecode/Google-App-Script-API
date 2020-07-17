@@ -1,0 +1,50 @@
+function complexcorrection(text){
+  var flag=0
+  var ans=""
+  
+  if (text.indexOf('.')<0 && text.indexOf('?')<0 && text.indexOf('!')<0){
+    var resp=UrlFetchApp.fetch("https://speller.yandex.net/services/spellservice.json/checkText?text="+text)
+    var data = JSON.parse(resp);
+  
+    for (var i=0;i<data.length;i++){
+      text=text.replace(data[i].word,data[i].s[0])
+    }
+    
+    return text
+  }
+  
+  
+ if (text[text.length-1]!="." && text[text.length-1]!="!" && text[text.length-1]!="?"){
+       text=text+"."
+           
+  }
+  
+  var result = text.match( /[^\.!\?]+[\.!\?]+/g );
+   
+  for (var k=0;k<result.length;k++){
+    if (result[k].indexOf("\n")+1){
+      flag=1 
+    }
+    
+   result[k]=result[k].replace(" \n .",". ") 
+   result[k]=result[k].trim()
+   
+   var resp=UrlFetchApp.fetch("https://speller.yandex.net/services/spellservice.json/checkText?text="+result[k])
+   var data = JSON.parse(resp);
+  
+    for (var i=0;i<data.length;i++){
+      result[k]=result[k].replace(data[i].word,data[i].s[0])
+    }
+    
+    ans=ans+result[k]+" "
+    
+    if (flag==1){
+     ans=ans+"\n" 
+    }
+    
+    flag=0
+    
+  }
+ 
+  return ans;
+}

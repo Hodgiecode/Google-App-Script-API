@@ -1,0 +1,4 @@
+function wikipediasearch(text){
+	var resp=UrlFetchApp.fetch("https://ru.wikipedia.org/w/api.php?action=opensearch&search="+text+"&limit=5&namespace=0&format=json")
+    var data = JSON.parse(resp);
+}

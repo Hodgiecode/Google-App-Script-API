@@ -1,0 +1,68 @@
+function checktext(text){
+  var key = "xxxxx" ///use service www.prepostseo.com
+  
+  var mode=0
+  var str2="-s" //var str2=="-p"
+  
+  if (str2.indexOf("-s")+1){
+    mode=0
+  }
+  
+  if (str2.indexOf("-p")+1){
+    mode=1
+  }
+  
+  if (mode==0){
+     var url = "https://www.prepostseo.com/apis/checkSentence";
+     var payload =
+      {
+        "key" : key,
+        "query": str3,
+        "type" : "post",
+      };
+ 
+    var options =
+      {
+        "method"  : "POST",
+        "payload" : payload,   
+        "followRedirects" : true,
+        "muteHttpExceptions": true,
+      };
+  
+   var result = UrlFetchApp.fetch(url, options);
+   var str1=""
+   for (var i=0;i<params.data.webs.length;i++){
+     if (params.data.webs[i].url.indexOf('plagiarism-checker-api-documentation')<0){
+       str1=str1+params.data.webs[i].title+'\n'+params.data.webs[i].des+'\n'+params.data.webs[i].url+'\n \n'
+     }
+     
+    if (String(str1).indexOf('undefined')+1){
+         str1="Я ничего не нашел, но это не значит, что плагиата нет"
+     }
+     return str1;
+     
+   }
+  }
+  
+  if (mode==1){
+    var url = "https://www.prepostseo.com/apis/checkPlag";
+    var payload =
+      {
+        "key" : key,
+        "data": text,
+        "type" : "post",
+      };
+  
+  var options =
+      {
+        "method"  : "POST",
+        "payload" : payload,   
+        "followRedirects" : true,
+        "muteHttpExceptions": true,
+      };
+  
+   var result = UrlFetchApp.fetch(url, options);
+   Logger.log(result)
+   return 0
+  }
+}

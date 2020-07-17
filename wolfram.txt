@@ -1,0 +1,39 @@
+function wolfram(text){
+  /*
+  инструкция на языке wolfram (используя integral,limit и т.д. или система сама определит что перед ней)
+  Определенный интеграл integrate sin(x) from 0 to pi
+  Неопределенный  интеграл int x dx
+  Умножение матриц matrix multiplication calculator {{1,2,3},{4,5,6},{8,9,10}} {{1,2,3},{4,5,6},{8,9,10}}
+  Диффур y''=y+2
+  Предел lim sin(x)/x as x->infinity
+  Производная derivative of sin(x)
+  Ряд Тейлора taylor series sin(x)
+  Разложить вокруг точки series sin(x) at x=pi/4
+  */
+  
+  var tmp=[]
+  var appid="xxxxxxx"
+  var url = "https://api.wolframalpha.com/v2/query?appid="+appid;
+  
+  var payload ={
+       "input" : String(text),
+       "output": 'json',
+       "type" : "post",
+    };
+ 
+   var options = {
+        "method"  : "POST",
+        "payload" : payload,   
+        "followRedirects" : true,
+        "muteHttpExceptions": true,
+   };
+  
+   var result = UrlFetchApp.fetch(url, options);
+   var params = JSON.parse(result.getContentText());
+   
+   for (var i=0;i<params.queryresult.pods.length;i++){
+    tmp.push([params.queryresult.pods[i].subpods[0].img.src, params.queryresult.pods[i].subpods[0].plaintext])
+   }
+  
+  return tmp
+}

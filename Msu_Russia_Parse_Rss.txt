@@ -1,0 +1,15 @@
+function parse_rss(){
+	var entries=parse_rss_site()
+    var title = entries[0].getChild('title').getText();
+    var link = entries[0].getChild('link').getText();
+    var pubdate= new Date(entries[0].getChild('pubDate').getText())
+    var date=Utilities.formatDate(pubdate, "GMT+5", "dd/MM/yyyy  HH:mm")
+}
+
+function parse_rss_site(){
+  var xml = UrlFetchApp.fetch('https://www.msu.ru/news/rss/').getContentText();
+  var document = XmlService.parse(xml);
+  var root = document.getRootElement().getChildren('channel');
+  var entries=root[0].getChildren('item');
+  return entries;
+}

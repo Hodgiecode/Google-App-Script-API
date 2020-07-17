@@ -1,0 +1,13 @@
+function converttolatex(text){
+		var str1=JSON.stringify(text).slice(1,-1)
+        var test=encodeURI("https://latex.codecogs.com/gif.png?"+str1).replace(/%5C%5C/g,"%5C")
+        
+        var res=UrlFetchApp.fetch(test)
+        
+		/*Save result to Google Drive*/
+		
+        var fileBlob = res.getBlob()
+        var destination = DriveApp.getFolderById(temp_dir_list);
+        var file=destination.createFile(fileBlob);
+        Logger.log("https://drive.google.com/uc?export=download&id="+file.getId()) //write to console link on fileS
+}

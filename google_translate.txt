@@ -1,0 +1,7 @@
+function googletranslate(text){
+	var langin="ru"
+	var langout="en"
+	var string=LanguageApp.translate(msg.text,langin,langout)
+	
+	Logger.log(string)
+}
