@@ -1,0 +1,52 @@
+function google_chart_plot(){
+	 var text="a b n f" //left bound, right bound, amount of points, function
+	 var tmp_arr=text.split(" ")
+     
+	 var f=tmp_arr[3].trim()
+     var a=tmp_arr[0].trim()
+     var b=tmp_arr[1].trim()
+	 
+     var m=parseInt(tmp_arr[2].trim())
+     
+     if (a.indexOf(".")+1){
+     	a=parseFloat(a);
+     } else {
+     	a=parseInt(a);
+     }
+
+     if (b.indexOf(".")+1){
+     	b=parseFloat(b);
+     } else {
+     	b=parseInt(b);
+     }
+    
+     var h=parseFloat((b-a)/m)
+     var x=a;
+  
+     var data = Charts.newDataTable()
+      .addColumn(Charts.ColumnType.NUMBER, 'x')
+      .addColumn(Charts.ColumnType.NUMBER, 'f(x)')
+   
+     for (var i=0;i<m+1;i++){
+       data.addRow([x,eval(f)]) 
+       x+=h;   
+     }
+ 
+     data.build();
+  
+     var chart = Charts.newLineChart()
+      .setDataTable(data)
+      .setDimensions(500, 600)
+      .setRange(a,b)
+      .setTitle('График функции '+f)
+      .setCurveStyle(Charts.CurveStyle.SMOOTH)
+      .build();
+
+     var destination_id = '1_SQo0Ldn-yafwqELoAiS-3w5WdzK7ZMO';  
+     var destination = DriveApp.getFolderById(destination_id);
+     var file=destination.createFile(chart.getBlob());
+     var id=file.getId()
+     var str="https://drive.google.com/uc?export=download&id="+id;
+	 Logger.log(str)
+     return str;
+}
