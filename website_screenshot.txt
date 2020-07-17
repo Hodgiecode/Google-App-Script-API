@@ -1,0 +1,11 @@
+function website_screenshot() {
+  var temp_dir_list="id of google drive folder"
+  var url="http://liverpool-fan.ru/"
+  var access_key="xxxxxx"
+  var format="png"
+  var post="https://api.apiflash.com/v1/urltoimage?access_key="+key+"&format="+format+"&fresh=true&full_page=true&url="+encodeURIComponent(url)
+  var res=UrlFetchApp.fetch(post)
+  var fileBlob = res.getBlob()
+  var destination = DriveApp.getFolderById(temp_dir_list);
+  var file=destination.createFile(fileBlob);
+}
